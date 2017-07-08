@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="TestDBModelStoreContainer" CdmEntityContainer="TestDBEntities">
+    <EntitySetMapping Name="Hotels">
+      <EntityTypeMapping TypeName="TestDBModel.Hotel">
+        <MappingFragment StoreEntitySet="Hotels">
+          <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Facilities">
+      <EntityTypeMapping TypeName="TestDBModel.Facility">
+        <MappingFragment StoreEntitySet="Facilities">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <AssociationSetMapping Name="FacilitiesToHotels" TypeName="TestDBModel.FacilitiesToHotels" StoreEntitySet="FacilitiesToHotels">
+      <EndProperty Name="Hotel">
+        <ScalarProperty Name="ID" ColumnName="HotelID" />
+      </EndProperty>
+      <EndProperty Name="Facility">
+        <ScalarProperty Name="ID" ColumnName="FacilityID" />
+      </EndProperty>
+    </AssociationSetMapping>
+  </EntityContainerMapping>
+</Mapping>

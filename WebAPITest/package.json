@@ -1,0 +1,33 @@
+{
+  "name": "WebAPITestHotels",
+  "version": "0.1.0",
+  "description": "Example React with WebPack in ASP.NET MVC5",
+  "author": "Idan Avitan",
+  "license": "",
+  "scripts": {
+    "dev-build": "webpack -d --config webpack.config.js --colors",
+    "dev-watch": "webpack -d --config webpack.config.js --watch --colors",
+    "prod-build": "SET NODE_ENV=production&&webpack -p --config webpack.config.js --colors"
+  },
+  "dependencies": {
+    "babel-polyfill": "6.23.0",
+    "babel-preset-stage-2": "^6.24.1",
+    "material-ui": "^1.0.0-alpha.21",
+    "material-ui-icons": "^1.0.0-alpha.19",
+    "moment": "^2.18.1",
+    "react": "15.6.1",
+    "react-dom": "15.6.1",
+    "react-router": "4.1.1",
+    "superagent": "^3.5.2",
+    "whatwg-fetch": "2.0.3"
+  },
+  "devDependencies": {
+    "babel-core": "6.25.0",
+    "babel-loader": "7.1.1",
+    "babel-preset-es2015": "6.24.1",
+    "babel-preset-react": "6.24.1",
+    "webpack": "3.0.0",
+    "webpack-dev-server": "2.5.0",
+    "html-webpack-plugin": "2.29.0"
+  }
+}

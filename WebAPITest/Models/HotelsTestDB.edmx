@@ -1,0 +1,162 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="TestDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Facilities">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+        </EntityType>
+        <EntityType Name="FacilitiesToHotels">
+          <Key>
+            <PropertyRef Name="FacilityID" />
+            <PropertyRef Name="HotelID" />
+          </Key>
+          <Property Name="FacilityID" Type="int" Nullable="false" />
+          <Property Name="HotelID" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Hotels">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" />
+          <Property Name="Date" Type="datetime" />
+          <Property Name="LastUpdate" Type="datetime" />
+        </EntityType>
+        <Association Name="FK_FacilitiesToHotels_Facilities">
+          <End Role="Facilities" Type="Self.Facilities" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FacilitiesToHotels" Type="Self.FacilitiesToHotels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Facilities">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FacilitiesToHotels">
+              <PropertyRef Name="FacilityID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_FacilitiesToHotels_Hotels">
+          <End Role="Hotels" Type="Self.Hotels" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="FacilitiesToHotels" Type="Self.FacilitiesToHotels" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Hotels">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="FacilitiesToHotels">
+              <PropertyRef Name="HotelID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="TestDBModelStoreContainer">
+          <EntitySet Name="Facilities" EntityType="Self.Facilities" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="FacilitiesToHotels" EntityType="Self.FacilitiesToHotels" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Hotels" EntityType="Self.Hotels" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_FacilitiesToHotels_Facilities" Association="Self.FK_FacilitiesToHotels_Facilities">
+            <End Role="Facilities" EntitySet="Facilities" />
+            <End Role="FacilitiesToHotels" EntitySet="FacilitiesToHotels" />
+          </AssociationSet>
+          <AssociationSet Name="FK_FacilitiesToHotels_Hotels" Association="Self.FK_FacilitiesToHotels_Hotels">
+            <End Role="Hotels" EntitySet="Hotels" />
+            <End Role="FacilitiesToHotels" EntitySet="FacilitiesToHotels" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="TestDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Hotel">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Facilities" Relationship="TestDBModel.FacilitiesToHotels" FromRole="Hotel" ToRole="Facility" />
+          <Property Name="Date" Type="DateTime" Precision="3" />
+          <Property Name="LastUpdate" Type="DateTime" Precision="3" />
+        </EntityType>
+        <EntityContainer Name="TestDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Hotels" EntityType="Self.Hotel" />
+          <EntitySet Name="Facilities" EntityType="TestDBModel.Facility" />
+          <AssociationSet Name="FacilitiesToHotels" Association="TestDBModel.FacilitiesToHotels">
+            <End Role="Facility" EntitySet="Facilities" />
+            <End Role="Hotel" EntitySet="Hotels" />
+          </AssociationSet>
+        </EntityContainer>
+        <EntityType Name="Facility">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="Hotels" Relationship="TestDBModel.FacilitiesToHotels" FromRole="Facility" ToRole="Hotel" />
+        </EntityType>
+        <Association Name="FacilitiesToHotels">
+          <End Type="TestDBModel.Facility" Role="Facility" Multiplicity="*" />
+          <End Type="TestDBModel.Hotel" Role="Hotel" Multiplicity="*" />
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="TestDBModelStoreContainer" CdmEntityContainer="TestDBEntities">
+          <EntitySetMapping Name="Hotels">
+            <EntityTypeMapping TypeName="TestDBModel.Hotel">
+              <MappingFragment StoreEntitySet="Hotels">
+                <ScalarProperty Name="LastUpdate" ColumnName="LastUpdate" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Facilities">
+            <EntityTypeMapping TypeName="TestDBModel.Facility">
+              <MappingFragment StoreEntitySet="Facilities">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="FacilitiesToHotels" TypeName="TestDBModel.FacilitiesToHotels" StoreEntitySet="FacilitiesToHotels">
+            <EndProperty Name="Hotel">
+              <ScalarProperty Name="ID" ColumnName="HotelID" />
+            </EndProperty>
+            <EndProperty Name="Facility">
+              <ScalarProperty Name="ID" ColumnName="FacilityID" />
+            </EndProperty>
+          </AssociationSetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

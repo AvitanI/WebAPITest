@@ -1,0 +1,68 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="TestDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Facilities">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+  </EntityType>
+  <EntityType Name="FacilitiesToHotels">
+    <Key>
+      <PropertyRef Name="FacilityID" />
+      <PropertyRef Name="HotelID" />
+    </Key>
+    <Property Name="FacilityID" Type="int" Nullable="false" />
+    <Property Name="HotelID" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Hotels">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="100" />
+    <Property Name="Date" Type="datetime" />
+    <Property Name="LastUpdate" Type="datetime" />
+  </EntityType>
+  <Association Name="FK_FacilitiesToHotels_Facilities">
+    <End Role="Facilities" Type="Self.Facilities" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="FacilitiesToHotels" Type="Self.FacilitiesToHotels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Facilities">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="FacilitiesToHotels">
+        <PropertyRef Name="FacilityID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_FacilitiesToHotels_Hotels">
+    <End Role="Hotels" Type="Self.Hotels" Multiplicity="1">
+      <OnDelete Action="Cascade" />
+    </End>
+    <End Role="FacilitiesToHotels" Type="Self.FacilitiesToHotels" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hotels">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="FacilitiesToHotels">
+        <PropertyRef Name="HotelID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="TestDBModelStoreContainer">
+    <EntitySet Name="Facilities" EntityType="Self.Facilities" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="FacilitiesToHotels" EntityType="Self.FacilitiesToHotels" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Hotels" EntityType="Self.Hotels" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK_FacilitiesToHotels_Facilities" Association="Self.FK_FacilitiesToHotels_Facilities">
+      <End Role="Facilities" EntitySet="Facilities" />
+      <End Role="FacilitiesToHotels" EntitySet="FacilitiesToHotels" />
+    </AssociationSet>
+    <AssociationSet Name="FK_FacilitiesToHotels_Hotels" Association="Self.FK_FacilitiesToHotels_Hotels">
+      <End Role="Hotels" EntitySet="Hotels" />
+      <End Role="FacilitiesToHotels" EntitySet="FacilitiesToHotels" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

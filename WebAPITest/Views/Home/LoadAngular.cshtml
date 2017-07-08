@@ -1,0 +1,16 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_AngularLayout.cshtml";
+}
+
+<div class="appContainer" ng-app="app" ng-controller="facilitiesController">
+    <h2>Facilities</h2>
+    <input type="text" ng-model="txt">
+    <div facilities-list></div>
+</div>
+
+@section scripts{
+    <script src="~/Scripts/angular.min.js"></script>
+    <script src="~/Scripts/app.js"></script>
+    <script src="~/Scripts/facilitiesController.js"></script>
+}
